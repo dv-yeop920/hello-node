@@ -6,6 +6,7 @@ const app = express();
 const port = 8080;
 const URL = 'mongodb+srv://jyeop920:toddlf0826@cluster0.mvqy3yr.mongodb.net/?retryWrites=true&w=majority'
 app.use(bodyParser.urlencoded({extended: true}));
+app.set('view engine' , 'ejs');
 
 let db;
 
@@ -27,6 +28,10 @@ MongoClient.connect(URL , (error , client) => {
 app.get('/todo' , (request , response) => {
     response.sendFile(path.join(__dirname,'public','index.html'));
 });
+
+app.get('/list' , (request , response) => {
+    response.render('list.ejs');
+})
 
 app.post('/add' , (request , response) => {
     response.send(request.body.content)
