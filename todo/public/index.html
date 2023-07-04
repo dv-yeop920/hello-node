@@ -8,14 +8,6 @@
     <title>Todo-List</title>
 </head>
 <body id="body">
-    <div id="switch-box">
-        <label class="switch">
-            <input type="checkbox" id="toggle-switch">
-            <span class="slider round"></span>
-            <span class="sun">☀️</span>
-            <span class="moon">🌙</span>
-        </label>
-    </div>
     <div class="container">
         <div id="container-todo">
             <div class="header">
@@ -29,8 +21,12 @@
             <form 
             class="form-container"
             action="/add"
-            method="POST">
-                <input type="text" id="input" placeholder="할일 입력..." />
+            method="post">
+                <input 
+                type="text" 
+                id="input" 
+                placeholder="할일 입력..." 
+                name="content"/>
                 <button type="submit" id="submit-button">추가</button>
             </form>
         </div>

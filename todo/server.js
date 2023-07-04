@@ -16,7 +16,8 @@ app.listen(port , () => {
 });
 
 app.post('/add' , (request , response) => {
-
+    response.send(request.body.content)
+    console.log(request.body.content)
 })
 
 
