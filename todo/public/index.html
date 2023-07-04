@@ -21,20 +21,15 @@
             <div class="header">
                 <h1 id="header-title" style="text-align: center;">오늘 뭐하지?</h1>
             </div>
-            <div class="button-group">
-                <button id="filter-delete" value="전부삭제">모두 삭제</button>
-            </div>
             <div class="count">
                 <span class = "list-count" style="font-size: 18px;">
                     총 0 / 10개
                 </span>
-                <progress id="count-bar" max="10" value="0">
-                </progress>
-                <span class="list-complete-count" style="font-size: 18px;">완료 0 / 10개</span>
-                <progress id="complete-count-bar" max="10" value="0">
-                </progress>
             </div>
-            <form class="form-container">
+            <form 
+            class="form-container"
+            action="/add"
+            method="POST">
                 <input type="text" id="input" placeholder="할일 입력..." />
                 <button type="submit" id="submit-button">추가</button>
             </form>
