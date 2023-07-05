@@ -30,7 +30,10 @@ app.get('/todo' , (request , response) => {
 });
 
 app.get('/list' , (request , response) => {
-    response.render('list.ejs');
+    db.collection('post').find().toArray((error , result) => {
+        console.log(result);
+        response.render('list.ejs' , {posts : result});
+    });
 })
 
 app.post('/add' , (request , response) => {
@@ -43,7 +46,7 @@ app.post('/add' , (request , response) => {
     console.log(request.body.content)
     db.collection('post').insertOne(obj , (error , result) => {
         console.log('저장 성공')
-    })
+    });
 })
 
 
