@@ -1,9 +1,9 @@
 const express = require('express');
+const app = express();
+const port = 8080;
 const bodyParser = require('body-parser');
 const path = require('path');
 const MongoClient = require('mongodb').MongoClient;
-const app = express();
-const port = 8080;
 const URL = 'mongodb+srv://jyeop920:toddlf0826@cluster0.mvqy3yr.mongodb.net/?retryWrites=true&w=majority'
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine' , 'ejs');
@@ -31,7 +31,7 @@ app.get('/list' , (request , response) => {
 })
 
 app.post('/add' , (request , response) => {
-    response.send(request.body.content)
+    response.send(request.body.content);
 
     db.collection('counter').findOne({name: 'detailCount'} , (error , result) => {
         let count  = result.totalPost;
@@ -51,9 +51,17 @@ app.post('/add' , (request , response) => {
                     () => {})
             });
     });
+});
 
-    
-})
+app.delete('/delete' , (request , response) => {
+    const id = request.body = parseInt(request.body._id);
+    console.log(request.body);
+    db.collection('post').deleteOne({_id: id} , (error , result) => {
+        console.log('삭제 완료');
+        response.status(200).send({message : '성공'});
+        if(error) return response.status(400).send({message : '실패'});
+    });
+});
 
 
 
