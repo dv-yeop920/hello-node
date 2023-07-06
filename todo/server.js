@@ -4,7 +4,9 @@ const port = 8080;
 const bodyParser = require('body-parser');
 const path = require('path');
 const MongoClient = require('mongodb').MongoClient;
-const URL = 'mongodb+srv://jyeop920:toddlf0826@cluster0.mvqy3yr.mongodb.net/?retryWrites=true&w=majority'
+const URL = 'mongodb+srv://jyeop920:toddlf0826@cluster0.mvqy3yr.mongodb.net/?retryWrites=true&w=majority';
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine' , 'ejs');
 
@@ -37,6 +39,13 @@ app.get('/detail/:id' , (request , response) => {
     });
 });
 
+app.get('/detailEdit/:id' , (request , response) => {
+    db.collection('post').findOne({_id: parseInt(request.params.id)} , (error , result) => {
+        console.log(result);
+        response.render('detailEdit.ejs' , {data: result});
+    });
+})
+
 
 app.post('/add' , (request , response) => {
     response.send(request.body.content);
@@ -60,6 +69,14 @@ app.post('/add' , (request , response) => {
             });
     });
 });
+
+app.put('/edit' , (request , response) => {
+    db.collection('post').updateOne({_id: parseInt(request.body.id)} ,{$set:{content: request.body.content}},
+    (error , result) => {
+        console.log('수정 완료');
+        response.redirect('/list');
+    })
+})
 
 app.delete('/delete' , (request , response) => {
     const id = request.body = parseInt(request.body._id);

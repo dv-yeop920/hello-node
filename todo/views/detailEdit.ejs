@@ -8,22 +8,24 @@
 </head>
 <body id="body">
     <div class="container">
-        <div id="container-todo">
-            <div class="header">
-                <h1 id="header-title" style="text-align: center;">오늘 뭐하지?</h1>
-            </div>
             <form 
             class="form-container"
-            action="/add"
+            action="/edit?_method=PUT"
             method="post">
+                <input type="text" 
+                value="<%= data._id %>"
+                name="id"
+                style="display: none;">
                 <input 
                 type="text" 
                 id="input" 
-                placeholder="할일 입력..." 
+                value="<%= data.content %>"
                 name="content"/>
-                <button type="submit" id="submit-button">추가</button>
+                <button type="submit" id="submit-button">수정 하기</button>
+                <button type="submit" class="cencle-button">취소</button>
             </form>
-        </div>
+    </div>
+    </div>
     </div>
 </body>
 </html>
