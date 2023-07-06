@@ -130,7 +130,22 @@ passport.serializeUser((user , done) => {
     done(null, user.id);
 });
 passport.deserializeUser((id , done) => {
-    done(null , {});
+    db.collection('login').findOne({id: id} , (error , result) => {
+        done(null , result);
+    });
+});
+
+const loginOrNot = (request , response , next) => {
+    if(request.user) {
+        next();
+    }
+    else {
+        response.send('로그인 안되어있음');
+    }
+}
+
+app.get('/mypage' , loginOrNot , (request , response) => {
+    response.render('mypage.ejs' , {user: request.user});
 })
 
 
