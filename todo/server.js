@@ -89,6 +89,51 @@ app.delete('/delete' , (request , response) => {
 });
 
 
+//세션스토리지 이용하기 위한 기본 셋팅
+const passport = require('passport');
+const localStrategy = require('passport-local');
+const session = require('express-session');
+
+//미들웨어 
+app.use(session({secret:'비밀코드' , resave: true , saveUninitialized: false}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get('/login' , (request , response) => {
+    response.render('login.ejs')
+})
+app.post('/login' , passport.authenticate('local' , {
+    failureRedirect: '/fail'
+}) ,(request , response) => {
+    response.redirect('/todo');
+});
+
+passport.use(new localStrategy({
+    usernameField: 'id',
+    passwordField: 'password',
+    session: true,
+    passReqToCallback: false,
+}, function (id, password, done) {
+    //console.log(id, password);
+    db.collection('login').findOne({ id: id }, function (error, result) {
+        if (error) return done(error);
+        if (!result) return done(null, false, { message: '존재하지않는 아이디요' });
+        if (password == result.password) {
+        return done(null, result);
+    } else {
+        return done(null, false, { message: '비번틀렸어요' });
+    }
+    })
+}));
+
+passport.serializeUser((user , done) => {
+    done(null, user.id);
+});
+passport.deserializeUser((id , done) => {
+    done(null , {});
+})
+
+
 
 
 
